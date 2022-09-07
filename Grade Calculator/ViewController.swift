@@ -52,10 +52,14 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var RequiredScoreBox: UILabel!
     
+    @IBOutlet weak var AdviceLabel: UILabel!
+    
     var CurrentGradeString = ""
     var TestWeightString = ""
     var TargetGradeString = ""
     
+    let GreenColor = UIColor.init(red: 0.0, green: 0.950, blue: 0.57, alpha: 1.0)
+    let redColor = UIColor.init(red: 0.925, green: 0.25, blue: 0.3, alpha: 1.0)
     
     @IBAction func CalculateButton(_ sender: UIButton) {
         CurrentGradeInput.resignFirstResponder()
@@ -78,17 +82,21 @@ class ViewController: UIViewController {
             let CurrentGradeDecimal = CurrentGradeFloat/100
             let NonTestGrade = 100 - TestWeightFloat
             
-            
             let CurrentPercent = NonTestGrade * CurrentGradeDecimal
-            print(CurrentPercent)
-            
             let TestPercentFraction = TargetGradeFloat - CurrentPercent
-            print(TestPercentFraction)
+
             let RequiredScore = (TestPercentFraction / TestWeightFloat) * 100
             let RoundedRequiredScore = round(RequiredScore * 100) / 100
             
-            RequiredScoreBox.text = String(RoundedRequiredScore)
-            
+            RequiredScoreBox.text = String(Int(RoundedRequiredScore)) + "%"
+            if RequiredScore <= 100{
+                view.backgroundColor = GreenColor
+                AdviceLabel.isHidden = true
+            }
+            else{
+                view.backgroundColor = redColor
+                AdviceLabel.isHidden = false
+            }
             
         }
     }
